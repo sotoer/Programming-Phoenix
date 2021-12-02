@@ -4,7 +4,7 @@ defmodule RumblWeb.Auth do
   alias RumblWeb.Router.Helpers, as: Routes
 
   def init(opts), do: opts
-  
+
   def call(conn, _opts) do
     user_id = get_session(conn, :user_id)
     user = user_id && Rumbl.Accounts.get_user(user_id)
@@ -27,5 +27,9 @@ defmodule RumblWeb.Auth do
       |> redirect(to: Routes.page_path(conn, :index))
       |> halt()
     end
+  end
+
+  def logout(conn) do
+    configure_session(conn, drop: true)
   end
 end
